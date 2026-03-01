@@ -1,0 +1,20 @@
+{
+  "name": "frap",
+  "version": "1.0.0",
+  "description": "A fully functional, AI-powered agricultural analysis and optimization platform built for a 24-hour hackathon.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@google/genai": "^1.43.0",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "groq-sdk": "^0.37.0"
+  }
+}

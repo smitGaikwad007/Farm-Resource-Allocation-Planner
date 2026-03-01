@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report | FRAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .glass-panel {
+                background: none;
+                border: 1px solid #ccc;
+                box-shadow: none;
+                color: black;
+                break-inside: avoid;
+            }
+
+            header,
+            .no-print {
+                display: none;
+            }
+
+            * {
+                color: black !important;
+                text-shadow: none !important;
+            }
+
+            .farm-grid {
+                border: 1px solid #000;
+                background: #fff;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="dashboard.html" class="logo">FRAP.</a>
+        <nav class="nav-links no-print">
+            <button onclick="window.print()" class="btn btn-primary" style="margin-right: 1rem;">⬇ Download PDF</button>
+            <a href="dashboard.html" class="btn btn-secondary">Dashboard</a>
+        </nav>
+    </header>
+
+    <main id="reportContent" class="planner-container" style="max-width: 1000px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end;" class="mb-4">
+            <div>
+                <h1 style="color: var(--primary-color);">Optimization Report</h1>
+                <p class="text-muted" id="reportDate"></p>
+                <h3 id="farmName" style="color: white; margin-top: 0.5rem;"></h3>
+            </div>
+            <div class="glass-panel text-center" style="padding: 1rem; border: 2px solid var(--success);">
+                <span class="text-muted" style="display: block; font-size: 0.8rem;">Sustainability Score</span>
+                <span id="sustainabilityScore"
+                    style="font-size: 2rem; font-weight: bold; color: var(--success);"></span>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h4>Estimated Yield</h4>
+                <div class="value" id="estYield" style="color: var(--accent-color);"></div>
+            </div>
+            <div class="stat-card">
+                <h4>Est. Profit Margin</h4>
+                <div class="value" id="estProfit" style="color: var(--success);"></div>
+            </div>
+            <div class="stat-card">
+                <h4>Land Utilization</h4>
+                <div class="value" id="landUtil"></div>
+            </div>
+        </div>
+
+        <!-- AI Query Answer -->
+        <div id="queryAnswerSection" class="glass-panel report-section mb-4"
+            style="display: none; border: 1px solid var(--accent-color);">
+            <h3 style="color: var(--accent-color);">AI Response to Your Query</h3>
+            <p id="queryAnswer" style="color: white; font-style: italic; font-size: 1.1rem; line-height: 1.6;"></p>
+        </div>
+
+        <!-- AI Insights -->
+        <div class="grid-2 mb-4">
+            <div class="glass-panel report-section">
+                <h3>Soil Condition & Health</h3>
+                <p id="soilCondition" style="color: #ddd;"></p>
+
+                <h4 style="margin-top: 1rem; color: var(--secondary-color);">Nutrient Insights</h4>
+                <p id="nutrientInsights" style="color: #ddd;"></p>
+
+                <h4 style="margin-top: 1rem; color: var(--secondary-color);">Risk Factors</h4>
+                <ul id="riskFactors" style="color: #ddd; margin-left: 1.5rem; margin-top: 0.5rem;"></ul>
+            </div>
+
+            <div class="glass-panel report-section">
+                <h3>Action Plan</h3>
+
+                <h4 style="margin-top: 1rem; color: var(--secondary-color);">Water Planning</h4>
+                <p id="waterPlanning" style="color: #ddd;"></p>
+
+                <h4 style="margin-top: 1rem; color: var(--secondary-color);">Fertilizer Strategy</h4>
+                <p id="fertilizerSuggestions" style="color: #ddd;"></p>
+
+                <h4 style="margin-top: 1rem; color: var(--secondary-color);">Sustainability Guidance</h4>
+                <p id="sustainabilityInsights" style="color: #ddd;"></p>
+            </div>
+        </div>
+
+        <!-- Visual Charts Data -->
+        <h3 style="color: white; margin-bottom: 0.5rem;" class="mt-4">Resource Utilization Visualized</h3>
+        <p class="text-muted mb-4">A complete breakdown of how land and key resources are allocated based on AI
+            optimization.</p>
+
+        <div class="grid-2 mb-4">
+            <div class="glass-panel">
+                <h4 style="color: var(--primary-color); text-align: center; margin-bottom: 1.5rem;">Land Allocation
+                    Distribution</h4>
+                <div id="landPieChart"></div>
+            </div>
+            <div class="glass-panel">
+                <h4 style="color: var(--primary-color); margin-bottom: 1.5rem;">Expected Profit per Crop</h4>
+                <div id="profitBarChart"></div>
+            </div>
+        </div>
+
+        <!-- Allocation Table Breakdown -->
+        <h3 style="color: white; margin-top: 3rem; margin-bottom: 1rem;">Resource Allocation Breakdown</h3>
+        <div class="glass-panel" style="padding: 0;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; color: white;">
+                <thead>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+                        <th style="padding: 1rem;">Crop Name</th>
+                        <th style="padding: 1rem;">Allocated Space</th>
+                        <th style="padding: 1rem;">Water Relied (L)</th>
+                        <th style="padding: 1rem;">Fertilizer (kg)</th>
+                        <th style="padding: 1rem;">Exp. Profit</th>
+                    </tr>
+                </thead>
+                <tbody id="allocationTableBody">
+                    <!-- Table row items -->
+                </tbody>
+            </table>
+        </div>
+
+        <div style="height: 50px;"></div>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="charts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const reportDataStr = localStorage.getItem('frap_current_report');
+            if (!reportDataStr) {
+                alert('No report data found. Please complete the planner form.');
+                window.location.href = 'planner.html';
+                return;
+            }
+
+            const data = JSON.parse(reportDataStr);
+            console.log("Loaded Data", data);
+
+            // 1. Header Data
+            document.getElementById('reportDate').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('farmName').textContent = data.farmData.address || "Unnamed Farm";
+
+            // 2. AI Data population
+            const ai = data.aiAnalysis || {};
+            document.getElementById('sustainabilityScore').textContent = ai.sustainabilityScore ? ai.sustainabilityScore + "/100" : "85/100";
+
+            document.getElementById('soilCondition').textContent = ai.soilCondition || "Soil appears healthy with balanced characteristics.";
+            document.getElementById('nutrientInsights').textContent = ai.nutrientInsights || "Nitrogen levels may be slightly depleted.";
+            document.getElementById('waterPlanning').textContent = ai.waterPlanning || "Implement drip irrigation to maximize limit.";
+            document.getElementById('fertilizerSuggestions').textContent = ai.fertilizerSuggestions || "Use organic compost primarily.";
+            document.getElementById('sustainabilityInsights').textContent = ai.sustainabilityInsights || "Rotate crops periodically to preserve soil structure.";
+
+            if (ai.queryAnswer && !ai.queryAnswer.toLowerCase().includes('no query provided')) {
+                document.getElementById('queryAnswerSection').style.display = 'block';
+                document.getElementById('queryAnswer').textContent = `"${ai.queryAnswer}"`;
+            }
+
+            const risksList = document.getElementById('riskFactors');
+            if (ai.riskFactors && Array.isArray(ai.riskFactors)) {
+                ai.riskFactors.forEach(risk => {
+                    let li = document.createElement('li');
+                    li.textContent = risk;
+                    risksList.appendChild(li);
+                });
+            } else {
+                risksList.innerHTML = "<li>No significant risks identified.</li>";
+            }
+
+            // 3. Optimization Data
+            const opt = data.optimization || {};
+            document.getElementById('estYield').textContent = opt.estimatedYield || "N/A";
+            document.getElementById('estProfit').textContent = opt.estimatedProfit || "N/A";
+
+            let totalSpace = Number(data.farmData.area) || 100;
+            let unusedRaw = opt.unusedSpace;
+            let usedSpace = totalSpace - (isNaN(Number(unusedRaw)) ? 0 : Number(unusedRaw));
+            let utilPct = Math.round((usedSpace / totalSpace) * 100) || 0;
+            document.getElementById('landUtil').textContent = utilPct + "%";
+
+            // 4. Render Table and Charts
+            const breakdown = opt.allocationBreakdown || [];
+            const tb = document.getElementById('allocationTableBody');
+
+            // Set up Arrays for Charts
+            let landChartData = [];
+            let profitChartData = [];
+
+            if (breakdown.length === 0) {
+                tb.innerHTML = "<tr><td colspan='5' style='padding: 1rem; text-align: center;'>No crops could be allocated due to strict constraints.</td></tr>";
+                document.getElementById('landPieChart').innerHTML = "<p class='text-muted'>No visualization available.</p>";
+                document.getElementById('profitBarChart').innerHTML = "<p class='text-muted'>No visualization available.</p>";
+            } else {
+                let maxProfit = 0;
+
+                breakdown.forEach(item => {
+                    // Populate Table Row
+                    let tr = document.createElement('tr');
+                    tr.style.borderBottom = "1px solid rgba(255,255,255,0.05)";
+                    tr.innerHTML = `
+                        <td style="padding: 1rem; display:flex; align-items:center; gap:0.5rem;">
+                            <div style="width:12px;height:12px;background:${item.color};border-radius:2px;"></div>
+                            ${item.crop}
+                        </td>
+                        <td style="padding: 1rem;">${item.areaAllocated.toLocaleString()} sq units</td>
+                        <td style="padding: 1rem;">${item.waterUsed.toLocaleString()}</td>
+                        <td style="padding: 1rem;">${item.fertilizerUsed.toLocaleString()}</td>
+                        <td style="padding: 1rem; color:var(--success); font-weight:bold;">$${item.expectedProfit.toLocaleString()}</td>
+                    `;
+                    tb.appendChild(tr);
+
+                    // Push data for charts
+                    landChartData.push({ label: item.crop, value: item.areaAllocated, color: item.color });
+                    profitChartData.push({ label: item.crop, value: item.expectedProfit, color: item.color });
+
+                    if (item.expectedProfit > maxProfit) maxProfit = item.expectedProfit;
+                });
+
+                // Check Unused space for Land Pie Chart
+                if (opt.unusedSpace && opt.unusedSpace > 0) {
+                    landChartData.push({ label: "Unused/Fallow", value: opt.unusedSpace, color: "#333333" });
+                }
+
+                // Render Charts
+                ChartBuilder.createPieChart('landPieChart', landChartData);
+                ChartBuilder.createBarChart('profitBarChart', profitChartData, maxProfit, '$');
+            }
+        });
+    </script>
+</body>
+
+</html>

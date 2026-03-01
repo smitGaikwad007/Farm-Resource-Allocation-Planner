@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | FRAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="logo">FRAP.</a>
+        <nav class="nav-links">
+            <span id="userNameDisplay" style="margin-right: 1.5rem; color: var(--text-muted);">Guest Farmer</span>
+        </nav>
+    </header>
+
+    <main>
+        <section class="mb-4">
+            <h1 style="color: white; margin-bottom: 0.5rem;">Welcome to your Dashboard</h1>
+            <p class="text-muted">Start a new farm plan or view recent optimal allocations.</p>
+        </section>
+
+        <section class="grid-2">
+            <!-- New Plan Action -->
+            <div class="glass-panel text-center"
+                style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 250px;">
+                <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">🌱</div>
+                <h3 class="mb-1" style="color: white;">Create New Plan</h3>
+                <p class="text-muted mb-3">Analyze soil and get an AI-optimized planting schedule.</p>
+                <a href="planner.html" class="btn btn-primary">Start Planning</a>
+            </div>
+
+            <!-- Recent Plans (Mock Data for Hackathon visually) -->
+            <div class="glass-panel">
+                <h3 class="mb-2" style="color: white;">Recent Plans</h3>
+                <div
+                    style="background: rgba(0,0,0,0.2); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; border-left: 4px solid var(--primary-color);">
+                    <h4 style="color: white; margin-bottom: 0.2rem;">North Field Sector</h4>
+                    <p class="text-muted" style="font-size: 0.9rem;">Analyzed on: Today</p>
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                        <span style="color: var(--success); font-weight: bold;">Est. Profit: $4,500</span>
+                        <a href="report.html"
+                            style="color: var(--accent-color); text-decoration: none; font-size: 0.9rem;">View Report
+                            →</a>
+                    </div>
+                </div>
+                <!-- Optional empty state -->
+                <p class="text-muted text-center" style="font-size: 0.9rem; margin-top: 2rem;">No more historical plans
+                    found.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 FRAP - Farm Resource Allocation Planner.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auth disabled
+            document.getElementById('userNameDisplay').textContent = `Welcome, Farmer`;
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planner | FRAP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href="dashboard.html" class="logo">FRAP.</a>
+        <nav class="nav-links">
+            <a href="dashboard.html" class="btn btn-secondary">Back to Dashboard</a>
+        </nav>
+    </header>
+
+    <main class="planner-container">
+        <h2 class="mb-1" style="color: var(--primary-color);">Farm Planner</h2>
+        <p class="text-muted mb-4">Input your land details and constraints. Our AI will analyze the best way to optimize
+            your resources.</p>
+
+        <form id="plannerForm" class="glass-panel">
+
+            <h3 class="mb-2"
+                style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; color: white;">1. Land
+                Details</h3>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="address">Farm Name / Address</label>
+                    <input type="text" id="address" required placeholder="North Field">
+                </div>
+                <!-- We will ask for Area directly, but they can optionally provide Width and Length -->
+                <div class="form-group">
+                    <label for="area">Total Land Area (sq meters or acres)</label>
+                    <input type="number" id="area" required placeholder="1000">
+                </div>
+                <div class="form-group">
+                    <label for="width">Length (Optional)</label>
+                    <input type="number" id="width" placeholder="e.g. 50">
+                </div>
+                <div class="form-group">
+                    <label for="length">Width (Optional)</label>
+                    <input type="number" id="length" placeholder="e.g. 20">
+                </div>
+            </div>
+
+            <h3 class="mt-4 mb-2"
+                style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; color: white;">2. Soil &
+                Environment</h3>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="soilType">Soil Type</label>
+                    <select id="soilType">
+                        <option value="Loamy">Loamy</option>
+                        <option value="Clay">Clay</option>
+                        <option value="Sandy">Sandy</option>
+                        <option value="Silt">Silt</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ph">Soil pH Level</label>
+                    <input type="number" step="0.1" id="ph" placeholder="e.g. 6.5" max="14" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="moisture">Current Moisture Level (%)</label>
+                    <input type="number" id="moisture" placeholder="e.g. 40" max="100" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="soilImage">Upload Soil Image (For AI Analysis)</label>
+                    <input type="file" id="soilImage" accept="image/jpeg, image/png">
+                    <img id="imagePreview"
+                        style="max-width: 100%; max-height: 150px; margin-top: 10px; display: none; border-radius: 8px;">
+                </div>
+            </div>
+
+            <h3 class="mt-4 mb-2"
+                style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; color: white;">3.
+                Constraints & Resources</h3>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="waterLimit">Water Availability (Liters/Gallons)</label>
+                    <input type="number" id="waterLimit" placeholder="Optional. e.g. 5000">
+                </div>
+                <div class="form-group">
+                    <label for="fertilizerLimit">Fertilizer Availability (kg/lbs)</label>
+                    <input type="number" id="fertilizerLimit" placeholder="Optional. e.g. 200">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label for="crops">Target Crops (Comma-separated)</label>
+                    <input type="text" id="crops" placeholder="Wheat, Corn, Soybeans...">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label for="userQuery">Farmer's Specific Query (Optional)</label>
+                    <textarea id="userQuery" rows="3"
+                        placeholder="e.g. How can I protect my mangoes from unexpected early frost?"></textarea>
+                </div>
+            </div>
+
+            <!-- Loader element -->
+            <div id="loadingIndicator" class="text-center hidden">
+                <div class="loader" style="display: block;"></div>
+                <p class="text-muted mt-2">AI is analyzing soil data and crunching optimization limits...</p>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn btn-primary mt-4"
+                style="width: 100%; font-size: 1.1rem;">Generate Optimization Report</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 FRAP - Farm Resource Allocation Planner.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            let soilBase64 = null;
+
+            // Handle image preview and base64 conversion
+            const fileInput = document.getElementById('soilImage');
+            const filePreview = document.getElementById('imagePreview');
+
+            fileInput.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    try {
+                        soilBase64 = await imageToBase64(file);
+                        filePreview.src = soilBase64;
+                        filePreview.style.display = 'block';
+                    } catch (err) {
+                        alert('Failed to read image file.');
+                    }
+                }
+            });
+
+            // Form submission
+            document.getElementById('plannerForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const submitBtn = document.getElementById('submitBtn');
+                const loadingIndicator = document.getElementById('loadingIndicator');
+
+                // Collect Data
+                const planData = {
+                    address: document.getElementById('address').value,
+                    area: document.getElementById('area').value,
+                    width: document.getElementById('width').value,
+                    length: document.getElementById('length').value,
+                    soilType: document.getElementById('soilType').value,
+                    ph: document.getElementById('ph').value,
+                    moisture: document.getElementById('moisture').value,
+                    waterLimit: document.getElementById('waterLimit').value,
+                    fertilizerLimit: document.getElementById('fertilizerLimit').value,
+                    crops: document.getElementById('crops').value,
+                    constraints: `Water limit: ${document.getElementById('waterLimit').value || 'None'}, Fertilizer limit: ${document.getElementById('fertilizerLimit').value || 'None'}`,
+                    query: document.getElementById('userQuery').value,
+                    base64Image: soilBase64
+                };
+
+                submitBtn.classList.add('hidden');
+                loadingIndicator.classList.remove('hidden');
+
+                try {
+                    // Step 1: Analyze via Gemini
+                    const analyzeRes = await apiCall('/analyze', 'POST', planData);
+
+                    if (analyzeRes.error) {
+                        alert('Analysis Error: ' + analyzeRes.error);
+                        throw new Error('Analysis failed');
+                    }
+
+                    // Step 2: Extract suitable crops from AI analysis, or fallback to user input
+                    let targetCropsForOpt = planData.crops.split(',').map(c => c.trim()).filter(c => c);
+                    if (analyzeRes.suitableCrops && analyzeRes.suitableCrops.length > 0) { // merge them
+                        targetCropsForOpt = [...new Set([...targetCropsForOpt, ...analyzeRes.suitableCrops])];
+                    }
+
+                    // Step 3: Optimization Local/Backend route
+                    const optData = {
+                        landSize: Number(planData.area),
+                        waterLimit: Number(planData.waterLimit),
+                        fertilizerLimit: Number(planData.fertilizerLimit),
+                        suitableCrops: targetCropsForOpt
+                    };
+
+                    const optRes = await apiCall('/optimize', 'POST', optData);
+                    if (!optRes.success) throw new Error('Optimization failed');
+
+                    // Step 4: Save everything to localStorage for the report page and redirect
+                    const reportPayload = {
+                        farmData: planData,
+                        aiAnalysis: analyzeRes,
+                        optimization: optRes
+                    };
+
+                    localStorage.setItem('frap_current_report', JSON.stringify(reportPayload));
+                    window.location.href = 'report.html';
+
+                } catch (error) {
+                    console.error('Error generating plan:', error);
+                    alert('An error occurred during planning. Setup .env with API Key? Check console.');
+                    submitBtn.classList.remove('hidden');
+                    loadingIndicator.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRAP | Farm Resource Allocation Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="logo">FRAP.</a>
+        <nav class="nav-links">
+            <a href="#features">Features</a>
+            <a href="dashboard.html" class="btn btn-primary" id="nav-signup">Get Started</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero text-center glass-panel" style="margin-top: 4rem; padding: 4rem 2rem;">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem; color: #fff;">
+                Optimize Your Farm with <span style="color: var(--primary-color);">AI Intelligence</span>
+            </h1>
+            <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2.5rem;">
+                FRAP uses advanced AI to analyze your soil, constraints, and resources to maximize yield, increase
+                profit, and ensure sustainability.
+            </p>
+            <div>
+                <a href="dashboard.html" class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 2rem;">Start
+                    Planning Now</a>
+                <a href="#demo" class="btn btn-secondary"
+                    style="font-size: 1.2rem; padding: 1rem 2rem; margin-left: 1rem;">View Demo</a>
+            </div>
+        </section>
+
+        <section id="features" class="grid-2 mt-4" style="gap: 2rem;">
+            <div class="glass-panel">
+                <h3 class="mb-2" style="color: var(--primary-color);">Soil Analysis</h3>
+                <p class="text-muted">Upload a photo of your soil and enter basic data. Our AI determines health, pH
+                    balance, and missing nutrients instantly.</p>
+            </div>
+            <div class="glass-panel">
+                <h3 class="mb-2" style="color: var(--primary-color);">Resource Optimization</h3>
+                <p class="text-muted">Input your limits for water and fertilizer. Calculate the optimal crop
+                    distribution for maximum ROI.</p>
+            </div>
+            <div class="glass-panel">
+                <h3 class="mb-2" style="color: var(--primary-color);">Sustainability Scoring</h3>
+                <p class="text-muted">Get a tailored score on your farming practices ensuring long-term viability
+                    without depleting the soil.</p>
+            </div>
+            <div class="glass-panel">
+                <h3 class="mb-2" style="color: var(--primary-color);">Actionable Reports</h3>
+                <p class="text-muted">Download complete PDF blueprints detailing exactly what, where, and how much to
+                    plant across your land.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 FRAP - Farm Resource Allocation Planner. Built for the Hackathon.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Directly proceed to dashboard for hackathon demo
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('nav-signup').href = 'dashboard.html';
+        });
+    </script>
+</body>
+
+</html>
