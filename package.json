@@ -16,5 +16,14 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "groq-sdk": "^0.37.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smitGaikwad007/Farm-Resource-Allocation-Planner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/smitGaikwad007/Farm-Resource-Allocation-Planner/issues"
+  },
+  "homepage": "https://github.com/smitGaikwad007/Farm-Resource-Allocation-Planner#readme"
 }
