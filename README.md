@@ -54,3 +54,9 @@ We strictly adhered to the hackathon guidelines:
 - Built exactly to spec in purely Vanilla web technologies.
 - API Keys are completely secured on the server side correctly.
 - UI features custom animations and modern styling without bloat.
+
+
+video link : https://drive.google.com/file/d/1oQ6su-WbMNVJniVZB-v7-6j14QfioAE6/view?usp=sharing
+netlify link: https://frapproject.netlify.app/
+render link : https://farm-resource-allocation-planner.onrender.com
+ppt link: https://drive.google.com/file/d/1LV67i9HiXzlTix1qjZLolEv4UNCPri99/view?usp=sharing
