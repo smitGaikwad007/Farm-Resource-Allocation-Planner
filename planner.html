@@ -174,11 +174,10 @@
                         throw new Error('Analysis failed');
                     }
 
-                    // Step 2: Extract suitable crops from AI analysis, or fallback to user input
+                    // Step 2: Use only user-entered crops (not AI suggestions)
                     let targetCropsForOpt = planData.crops.split(',').map(c => c.trim()).filter(c => c);
-                    if (analyzeRes.suitableCrops && analyzeRes.suitableCrops.length > 0) { // merge them
-                        targetCropsForOpt = [...new Set([...targetCropsForOpt, ...analyzeRes.suitableCrops])];
-                    }
+                    if (targetCropsForOpt.length === 0) targetCropsForOpt = ['Mixed Crop'];
+
 
                     // Step 3: Optimization Local/Backend route
                     const optData = {
